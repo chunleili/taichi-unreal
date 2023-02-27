@@ -2,16 +2,10 @@
 source_filename = "kernel"
 target triple = "nvptx64-nvidia-cuda"
 
-%struct.RuntimeContext = type { %struct.LLVMRuntime*, [64 x i64], [64 x i64], [32 x [12 x i32]], i32, [64 x i8], [64 x i64], [64 x i8], i64* }
-%struct.LLVMRuntime = type { i8, i64, i8*, i8*, i8* (i8*, i64, i64)*, void (i8*)*, void (i8*, ...)*, i32 (i8*, i64, i8*, %struct.__va_list_tag*)*, i8*, [512 x i8*], [512 x i64], i8*, void (i8*, i32, i32, i8*, void (i8*, i32, i32)*)*, [1024 x %struct.ListManager*], [1024 x %struct.NodeManager*], %struct.NodeManager*, [1024 x i8*], i8*, %struct.RandState*, %struct.MemRequestQueue*, i8*, void (i8*, i8*)*, void (i8*)*, [2048 x i8], [32 x i64], i32, i64, i8*, i32, i32, i64, i8* }
-%struct.__va_list_tag = type { i32, i32, i8*, i8* }
-%struct.ListManager = type { [131072 x i8*], i64, i64, i32, i32, i32, %struct.LLVMRuntime* }
-%struct.NodeManager = type <{ %struct.LLVMRuntime*, i32, i32, i32, i32, %struct.ListManager*, %struct.ListManager*, %struct.ListManager*, i32, [4 x i8] }>
-%struct.RandState = type { i32, i32, i32, i32, i32 }
-%struct.MemRequestQueue = type { [65536 x %struct.MemRequest], i32, i32 }
-%struct.MemRequest = type { i64, i64, i8*, i64 }
+%struct.RuntimeContext = type { ptr, [64 x i64], [64 x i64], [32 x [12 x i32]], i32, [64 x i8], [64 x i64], [64 x i8], ptr }
+%struct.LLVMRuntime = type { i8, i64, ptr, ptr, ptr, ptr, ptr, ptr, ptr, [512 x ptr], [512 x i64], ptr, ptr, [1024 x ptr], [1024 x ptr], ptr, [1024 x ptr], ptr, ptr, ptr, ptr, ptr, ptr, [2048 x i8], [32 x i64], i32, i64, ptr, i32, i32, i64, ptr }
 
-define void @initialize_particle_c76_0_kernel_0_serial(%struct.RuntimeContext* byval(%struct.RuntimeContext) %context) {
+define void @initialize_particle_c76_0_kernel_0_serial(ptr byval(%struct.RuntimeContext) %context) {
 entry:
   br label %body
 
@@ -19,23 +13,22 @@ final:                                            ; preds = %body
   ret void
 
 body:                                             ; preds = %entry
-  %0 = call i64 @RuntimeContext_get_args(%struct.RuntimeContext* %context, i32 4)
-  %1 = inttoptr i64 %0 to float*
-  %2 = getelementptr float, float* %1, i32 0
-  store float 0.000000e+00, float* %2, align 4
-  %3 = getelementptr float, float* %1, i32 1
-  store float 0xC0239999A0000000, float* %3, align 4
-  %4 = getelementptr float, float* %1, i32 2
-  store float 0.000000e+00, float* %4, align 4
-  %5 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %context, i32 0, i32 0)
-  %6 = call %struct.LLVMRuntime* @RuntimeContext_get_runtime(%struct.RuntimeContext* %context)
-  %7 = call i8* @get_temporary_pointer(%struct.LLVMRuntime* %6, i64 0)
-  %8 = bitcast i8* %7 to i32*
-  store i32 %5, i32* %8, align 4
+  %0 = call i64 @RuntimeContext_get_args(ptr %context, i32 4)
+  %1 = inttoptr i64 %0 to ptr
+  %2 = getelementptr float, ptr %1, i32 0
+  store float -1.000000e+01, ptr %2, align 4
+  %3 = getelementptr float, ptr %1, i32 1
+  store float 0.000000e+00, ptr %3, align 4
+  %4 = getelementptr float, ptr %1, i32 2
+  store float 0.000000e+00, ptr %4, align 4
+  %5 = call i32 @RuntimeContext_get_extra_args(ptr %context, i32 0, i32 0)
+  %6 = call ptr @RuntimeContext_get_runtime(ptr %context)
+  %7 = call ptr @get_temporary_pointer(ptr %6, i64 0)
+  store i32 %5, ptr %7, align 4
   br label %final
 }
 
-define void @initialize_particle_c76_0_kernel_1_range_for(%struct.RuntimeContext* byval(%struct.RuntimeContext) %context) {
+define void @initialize_particle_c76_0_kernel_1_range_for(ptr byval(%struct.RuntimeContext) %context) {
 entry:
   br label %body
 
@@ -43,15 +36,14 @@ final:                                            ; preds = %body
   ret void
 
 body:                                             ; preds = %entry
-  %0 = call %struct.LLVMRuntime* @RuntimeContext_get_runtime(%struct.RuntimeContext* %context)
-  %1 = call i8* @get_temporary_pointer(%struct.LLVMRuntime* %0, i64 0)
-  %2 = bitcast i8* %1 to i32*
-  %3 = load i32, i32* %2, align 4
-  call void @gpu_parallel_range_for(%struct.RuntimeContext* %context, i32 0, i32 %3, void (%struct.RuntimeContext*, i8*)* null, void (%struct.RuntimeContext*, i8*, i32)* @function_body, void (%struct.RuntimeContext*, i8*)* null, i64 1)
+  %0 = call ptr @RuntimeContext_get_runtime(ptr %context)
+  %1 = call ptr @get_temporary_pointer(ptr %0, i64 0)
+  %2 = load i32, ptr %1, align 4
+  call void @gpu_parallel_range_for(ptr %context, i32 0, i32 %2, ptr null, ptr @function_body, ptr null, i64 1)
   br label %final
 }
 
-define internal void @function_body(%struct.RuntimeContext* %0, i8* %1, i32 %2) {
+define internal void @function_body(ptr %0, ptr %1, i32 %2) {
 allocs:
   %3 = alloca i32, align 4
   br label %entry
@@ -63,15 +55,15 @@ entry:                                            ; preds = %allocs
   br label %function_body
 
 function_body:                                    ; preds = %entry
-  store i32 %2, i32* %3, align 4
-  %4 = load i32, i32* %3, align 4
-  %5 = call i64 @RuntimeContext_get_args(%struct.RuntimeContext* %0, i32 3)
-  %6 = inttoptr i64 %5 to i32*
-  %7 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 3, i32 0)
+  store i32 %2, ptr %3, align 4
+  %4 = load i32, ptr %3, align 4
+  %5 = call i64 @RuntimeContext_get_args(ptr %0, i32 3)
+  %6 = inttoptr i64 %5 to ptr
+  %7 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 3, i32 0)
   %8 = mul i32 0, %7
   %9 = add i32 %8, 0
-  %10 = getelementptr i32, i32* %6, i32 %9
-  %11 = load i32, i32* %10, align 4
+  %10 = getelementptr i32, ptr %6, i32 %9
+  %11 = load i32, ptr %10, align 4
   %12 = sdiv i32 %4, %11
   %13 = icmp slt i32 %4, 0
   %14 = sext i1 %13 to i32
@@ -89,11 +81,11 @@ function_body:                                    ; preds = %entry
   %26 = add i32 %12, %25
   %27 = mul i32 %11, %26
   %28 = sub i32 %4, %27
-  %29 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 3, i32 0)
+  %29 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 3, i32 0)
   %30 = mul i32 0, %29
   %31 = add i32 %30, 1
-  %32 = getelementptr i32, i32* %6, i32 %31
-  %33 = load i32, i32* %32, align 4
+  %32 = getelementptr i32, ptr %6, i32 %31
+  %33 = load i32, ptr %32, align 4
   %34 = sdiv i32 %26, %33
   %35 = icmp slt i32 %26, 0
   %36 = sext i1 %35 to i32
@@ -111,11 +103,11 @@ function_body:                                    ; preds = %entry
   %48 = add i32 %34, %47
   %49 = mul i32 %33, %48
   %50 = sub i32 %26, %49
-  %51 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 3, i32 0)
+  %51 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 3, i32 0)
   %52 = mul i32 0, %51
   %53 = add i32 %52, 2
-  %54 = getelementptr i32, i32* %6, i32 %53
-  %55 = load i32, i32* %54, align 4
+  %54 = getelementptr i32, ptr %6, i32 %53
+  %55 = load i32, ptr %54, align 4
   %56 = sdiv i32 %48, %55
   %57 = icmp slt i32 %48, 0
   %58 = sext i1 %57 to i32
@@ -139,242 +131,247 @@ function_body:                                    ; preds = %entry
   %76 = fmul float %75, 0x3F947AE140000000
   %77 = sitofp i32 %72 to float
   %78 = fmul float %77, 0x3F947AE140000000
-  %79 = call i64 @RuntimeContext_get_args(%struct.RuntimeContext* %0, i32 2)
-  %80 = inttoptr i64 %79 to float*
-  %81 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 2, i32 0)
+  %79 = call i64 @RuntimeContext_get_args(ptr %0, i32 2)
+  %80 = inttoptr i64 %79 to ptr
+  %81 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 2, i32 0)
   %82 = mul i32 0, %81
   %83 = add i32 %82, 0
   %84 = mul i32 %83, 3
   %85 = add i32 %84, 0
-  %86 = getelementptr float, float* %80, i32 %85
-  %87 = load float, float* %86, align 4
-  %88 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 2, i32 0)
+  %86 = getelementptr float, ptr %80, i32 %85
+  %87 = load float, ptr %86, align 4
+  %88 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 2, i32 0)
   %89 = mul i32 0, %88
   %90 = add i32 %89, 0
   %91 = mul i32 %90, 3
   %92 = add i32 %91, 1
-  %93 = getelementptr float, float* %80, i32 %92
-  %94 = load float, float* %93, align 4
-  %95 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 2, i32 0)
+  %93 = getelementptr float, ptr %80, i32 %92
+  %94 = load float, ptr %93, align 4
+  %95 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 2, i32 0)
   %96 = mul i32 0, %95
   %97 = add i32 %96, 0
   %98 = mul i32 %97, 3
   %99 = add i32 %98, 2
-  %100 = getelementptr float, float* %80, i32 %99
-  %101 = load float, float* %100, align 4
+  %100 = getelementptr float, ptr %80, i32 %99
+  %101 = load float, ptr %100, align 4
   %102 = fadd float %74, %87
   %103 = fadd float %76, %94
   %104 = fadd float %78, %101
-  %105 = call i64 @RuntimeContext_get_args(%struct.RuntimeContext* %0, i32 0)
-  %106 = inttoptr i64 %105 to float*
-  %107 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 0, i32 0)
+  %105 = call i64 @RuntimeContext_get_args(ptr %0, i32 0)
+  %106 = inttoptr i64 %105 to ptr
+  %107 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 0, i32 0)
   %108 = mul i32 0, %107
   %109 = add i32 %108, %4
   %110 = mul i32 %109, 3
   %111 = add i32 %110, 0
-  %112 = getelementptr float, float* %106, i32 %111
-  store float %102, float* %112, align 4
-  %113 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 0, i32 0)
+  %112 = getelementptr float, ptr %106, i32 %111
+  store float %102, ptr %112, align 4
+  %113 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 0, i32 0)
   %114 = mul i32 0, %113
   %115 = add i32 %114, %4
   %116 = mul i32 %115, 3
   %117 = add i32 %116, 1
-  %118 = getelementptr float, float* %106, i32 %117
-  store float %103, float* %118, align 4
-  %119 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 0, i32 0)
+  %118 = getelementptr float, ptr %106, i32 %117
+  store float %103, ptr %118, align 4
+  %119 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 0, i32 0)
   %120 = mul i32 0, %119
   %121 = add i32 %120, %4
   %122 = mul i32 %121, 3
   %123 = add i32 %122, 2
-  %124 = getelementptr float, float* %106, i32 %123
-  store float %104, float* %124, align 4
-  %125 = call i64 @RuntimeContext_get_args(%struct.RuntimeContext* %0, i32 1)
-  %126 = inttoptr i64 %125 to float*
-  %127 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 1, i32 0)
+  %124 = getelementptr float, ptr %106, i32 %123
+  store float %104, ptr %124, align 4
+  %125 = call i64 @RuntimeContext_get_args(ptr %0, i32 1)
+  %126 = inttoptr i64 %125 to ptr
+  %127 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 1, i32 0)
   %128 = mul i32 0, %127
   %129 = add i32 %128, %4
   %130 = mul i32 %129, 3
   %131 = add i32 %130, 0
-  %132 = getelementptr float, float* %126, i32 %131
-  store float 0.000000e+00, float* %132, align 4
-  %133 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 1, i32 0)
+  %132 = getelementptr float, ptr %126, i32 %131
+  store float 0.000000e+00, ptr %132, align 4
+  %133 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 1, i32 0)
   %134 = mul i32 0, %133
   %135 = add i32 %134, %4
   %136 = mul i32 %135, 3
   %137 = add i32 %136, 1
-  %138 = getelementptr float, float* %126, i32 %137
-  store float 0.000000e+00, float* %138, align 4
-  %139 = call i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 1, i32 0)
+  %138 = getelementptr float, ptr %126, i32 %137
+  store float 0.000000e+00, ptr %138, align 4
+  %139 = call i32 @RuntimeContext_get_extra_args(ptr %0, i32 1, i32 0)
   %140 = mul i32 0, %139
   %141 = add i32 %140, %4
   %142 = mul i32 %141, 3
   %143 = add i32 %142, 2
-  %144 = getelementptr float, float* %126, i32 %143
-  store float 0.000000e+00, float* %144, align 4
+  %144 = getelementptr float, ptr %126, i32 %143
+  store float 0.000000e+00, ptr %144, align 4
   br label %final
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
-define internal i64 @RuntimeContext_get_args(%struct.RuntimeContext* %0, i32 %1) #0 {
-  %3 = alloca %struct.RuntimeContext*, align 8
-  %4 = alloca i32, align 4
-  store %struct.RuntimeContext* %0, %struct.RuntimeContext** %3, align 8
-  store i32 %1, i32* %4, align 4
-  %5 = load %struct.RuntimeContext*, %struct.RuntimeContext** %3, align 8
-  %6 = getelementptr inbounds %struct.RuntimeContext, %struct.RuntimeContext* %5, i32 0, i32 1
-  %7 = load i32, i32* %4, align 4
-  %8 = sext i32 %7 to i64
-  %9 = getelementptr inbounds [64 x i64], [64 x i64]* %6, i64 0, i64 %8
-  %10 = load i64, i64* %9, align 8
-  ret i64 %10
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
+define internal i64 @RuntimeContext_get_args(ptr noundef %s, i32 noundef %i) #0 {
+entry:
+  %i.addr = alloca i32, align 4
+  %s.addr = alloca ptr, align 8
+  store i32 %i, ptr %i.addr, align 4
+  store ptr %s, ptr %s.addr, align 8
+  %0 = load ptr, ptr %s.addr, align 8
+  %args = getelementptr inbounds %struct.RuntimeContext, ptr %0, i32 0, i32 1
+  %1 = load i32, ptr %i.addr, align 4
+  %idxprom = sext i32 %1 to i64
+  %arrayidx = getelementptr inbounds [64 x i64], ptr %args, i64 0, i64 %idxprom
+  %2 = load i64, ptr %arrayidx, align 8
+  ret i64 %2
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
-define internal %struct.LLVMRuntime* @RuntimeContext_get_runtime(%struct.RuntimeContext* %0) #0 {
-  %2 = alloca %struct.RuntimeContext*, align 8
-  store %struct.RuntimeContext* %0, %struct.RuntimeContext** %2, align 8
-  %3 = load %struct.RuntimeContext*, %struct.RuntimeContext** %2, align 8
-  %4 = getelementptr inbounds %struct.RuntimeContext, %struct.RuntimeContext* %3, i32 0, i32 0
-  %5 = load %struct.LLVMRuntime*, %struct.LLVMRuntime** %4, align 8
-  ret %struct.LLVMRuntime* %5
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
+define internal ptr @RuntimeContext_get_runtime(ptr noundef %s) #0 {
+entry:
+  %s.addr = alloca ptr, align 8
+  store ptr %s, ptr %s.addr, align 8
+  %0 = load ptr, ptr %s.addr, align 8
+  %runtime = getelementptr inbounds %struct.RuntimeContext, ptr %0, i32 0, i32 0
+  %1 = load ptr, ptr %runtime, align 8
+  ret ptr %1
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
-define internal i32 @RuntimeContext_get_extra_args(%struct.RuntimeContext* %0, i32 %1, i32 %2) #0 {
-  %4 = alloca %struct.RuntimeContext*, align 8
-  %5 = alloca i32, align 4
-  %6 = alloca i32, align 4
-  store %struct.RuntimeContext* %0, %struct.RuntimeContext** %4, align 8
-  store i32 %1, i32* %5, align 4
-  store i32 %2, i32* %6, align 4
-  %7 = load %struct.RuntimeContext*, %struct.RuntimeContext** %4, align 8
-  %8 = getelementptr inbounds %struct.RuntimeContext, %struct.RuntimeContext* %7, i32 0, i32 3
-  %9 = load i32, i32* %5, align 4
-  %10 = sext i32 %9 to i64
-  %11 = getelementptr inbounds [32 x [12 x i32]], [32 x [12 x i32]]* %8, i64 0, i64 %10
-  %12 = load i32, i32* %6, align 4
-  %13 = sext i32 %12 to i64
-  %14 = getelementptr inbounds [12 x i32], [12 x i32]* %11, i64 0, i64 %13
-  %15 = load i32, i32* %14, align 4
-  ret i32 %15
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
+define internal i32 @RuntimeContext_get_extra_args(ptr noundef %ctx, i32 noundef %i, i32 noundef %j) #0 {
+entry:
+  %j.addr = alloca i32, align 4
+  %i.addr = alloca i32, align 4
+  %ctx.addr = alloca ptr, align 8
+  store i32 %j, ptr %j.addr, align 4
+  store i32 %i, ptr %i.addr, align 4
+  store ptr %ctx, ptr %ctx.addr, align 8
+  %0 = load ptr, ptr %ctx.addr, align 8
+  %extra_args = getelementptr inbounds %struct.RuntimeContext, ptr %0, i32 0, i32 3
+  %1 = load i32, ptr %i.addr, align 4
+  %idxprom = sext i32 %1 to i64
+  %arrayidx = getelementptr inbounds [32 x [12 x i32]], ptr %extra_args, i64 0, i64 %idxprom
+  %2 = load i32, ptr %j.addr, align 4
+  %idxprom1 = sext i32 %2 to i64
+  %arrayidx2 = getelementptr inbounds [12 x i32], ptr %arrayidx, i64 0, i64 %idxprom1
+  %3 = load i32, ptr %arrayidx2, align 4
+  ret i32 %3
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
-define internal i8* @get_temporary_pointer(%struct.LLVMRuntime* %0, i64 %1) #0 {
-  %3 = alloca %struct.LLVMRuntime*, align 8
-  %4 = alloca i64, align 8
-  store %struct.LLVMRuntime* %0, %struct.LLVMRuntime** %3, align 8
-  store i64 %1, i64* %4, align 8
-  %5 = load %struct.LLVMRuntime*, %struct.LLVMRuntime** %3, align 8
-  %6 = getelementptr inbounds %struct.LLVMRuntime, %struct.LLVMRuntime* %5, i32 0, i32 17
-  %7 = load i8*, i8** %6, align 8
-  %8 = load i64, i64* %4, align 8
-  %9 = getelementptr inbounds i8, i8* %7, i64 %8
-  ret i8* %9
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
+define internal ptr @get_temporary_pointer(ptr noundef %runtime, i64 noundef %offset) #0 {
+entry:
+  %offset.addr = alloca i64, align 8
+  %runtime.addr = alloca ptr, align 8
+  store i64 %offset, ptr %offset.addr, align 8
+  store ptr %runtime, ptr %runtime.addr, align 8
+  %0 = load ptr, ptr %runtime.addr, align 8
+  %temporaries = getelementptr inbounds %struct.LLVMRuntime, ptr %0, i32 0, i32 17
+  %1 = load ptr, ptr %temporaries, align 8
+  %2 = load i64, ptr %offset.addr, align 8
+  %add.ptr = getelementptr inbounds i8, ptr %1, i64 %2
+  ret ptr %add.ptr
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
-define internal void @gpu_parallel_range_for(%struct.RuntimeContext* %0, i32 %1, i32 %2, void (%struct.RuntimeContext*, i8*)* %3, void (%struct.RuntimeContext*, i8*, i32)* %4, void (%struct.RuntimeContext*, i8*)* %5, i64 %6) #0 {
-  %8 = alloca %struct.RuntimeContext*, align 8
-  %9 = alloca i32, align 4
-  %10 = alloca i32, align 4
-  %11 = alloca void (%struct.RuntimeContext*, i8*)*, align 8
-  %12 = alloca void (%struct.RuntimeContext*, i8*, i32)*, align 8
-  %13 = alloca void (%struct.RuntimeContext*, i8*)*, align 8
-  %14 = alloca i64, align 8
-  %15 = alloca i32, align 4
-  %16 = alloca i8*, align 8
-  %17 = alloca i64, align 8
-  %18 = alloca i8*, align 8
-  store %struct.RuntimeContext* %0, %struct.RuntimeContext** %8, align 8
-  store i32 %1, i32* %9, align 4
-  store i32 %2, i32* %10, align 4
-  store void (%struct.RuntimeContext*, i8*)* %3, void (%struct.RuntimeContext*, i8*)** %11, align 8
-  store void (%struct.RuntimeContext*, i8*, i32)* %4, void (%struct.RuntimeContext*, i8*, i32)** %12, align 8
-  store void (%struct.RuntimeContext*, i8*)* %5, void (%struct.RuntimeContext*, i8*)** %13, align 8
-  store i64 %6, i64* %14, align 8
-  %19 = call i32 @thread_idx()
-  %20 = call i32 @block_dim()
-  %21 = call i32 @block_idx()
-  %22 = mul nsw i32 %20, %21
-  %23 = add nsw i32 %19, %22
-  %24 = load i32, i32* %9, align 4
-  %25 = add nsw i32 %23, %24
-  store i32 %25, i32* %15, align 4
-  %26 = load i64, i64* %14, align 8
-  %27 = call i8* @llvm.stacksave()
-  store i8* %27, i8** %16, align 8
-  %28 = alloca i8, i64 %26, align 8
-  store i64 %26, i64* %17, align 8
-  %29 = getelementptr inbounds i8, i8* %28, i64 0
-  store i8* %29, i8** %18, align 8
-  %30 = load void (%struct.RuntimeContext*, i8*)*, void (%struct.RuntimeContext*, i8*)** %11, align 8
-  %31 = icmp ne void (%struct.RuntimeContext*, i8*)* %30, null
-  br i1 %31, label %32, label %36
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
+define internal void @gpu_parallel_range_for(ptr noundef %context, i32 noundef %begin, i32 noundef %end, ptr noundef %prologue, ptr noundef %func, ptr noundef %epilogue, i64 noundef %tls_size) #0 {
+entry:
+  %tls_size.addr = alloca i64, align 8
+  %epilogue.addr = alloca ptr, align 8
+  %func.addr = alloca ptr, align 8
+  %prologue.addr = alloca ptr, align 8
+  %end.addr = alloca i32, align 4
+  %begin.addr = alloca i32, align 4
+  %context.addr = alloca ptr, align 8
+  %idx = alloca i32, align 4
+  %saved_stack = alloca ptr, align 8
+  %__vla_expr0 = alloca i64, align 8
+  %tls_ptr = alloca ptr, align 8
+  store i64 %tls_size, ptr %tls_size.addr, align 8
+  store ptr %epilogue, ptr %epilogue.addr, align 8
+  store ptr %func, ptr %func.addr, align 8
+  store ptr %prologue, ptr %prologue.addr, align 8
+  store i32 %end, ptr %end.addr, align 4
+  store i32 %begin, ptr %begin.addr, align 4
+  store ptr %context, ptr %context.addr, align 8
+  %call = call i32 @thread_idx()
+  %call1 = call i32 @block_dim()
+  %call2 = call i32 @block_idx()
+  %mul = mul nsw i32 %call1, %call2
+  %add = add nsw i32 %call, %mul
+  %0 = load i32, ptr %begin.addr, align 4
+  %add3 = add nsw i32 %add, %0
+  store i32 %add3, ptr %idx, align 4
+  %1 = load i64, ptr %tls_size.addr, align 8
+  %2 = call ptr @llvm.stacksave()
+  store ptr %2, ptr %saved_stack, align 8
+  %vla = alloca i8, i64 %1, align 8
+  store i64 %1, ptr %__vla_expr0, align 8
+  %arrayidx = getelementptr inbounds i8, ptr %vla, i64 0
+  store ptr %arrayidx, ptr %tls_ptr, align 8
+  %3 = load ptr, ptr %prologue.addr, align 8
+  %tobool = icmp ne ptr %3, null
+  br i1 %tobool, label %if.then, label %if.end
 
-32:                                               ; preds = %7
-  %33 = load void (%struct.RuntimeContext*, i8*)*, void (%struct.RuntimeContext*, i8*)** %11, align 8
-  %34 = load %struct.RuntimeContext*, %struct.RuntimeContext** %8, align 8
-  %35 = load i8*, i8** %18, align 8
-  call void %33(%struct.RuntimeContext* %34, i8* %35)
-  br label %36
+if.then:                                          ; preds = %entry
+  %4 = load ptr, ptr %prologue.addr, align 8
+  %5 = load ptr, ptr %tls_ptr, align 8
+  %6 = load ptr, ptr %context.addr, align 8
+  call void %4(ptr noundef %6, ptr noundef %5)
+  br label %if.end
 
-36:                                               ; preds = %32, %7
-  br label %37
+if.end:                                           ; preds = %if.then, %entry
+  br label %while.cond
 
-37:                                               ; preds = %41, %36
-  %38 = load i32, i32* %15, align 4
-  %39 = load i32, i32* %10, align 4
-  %40 = icmp slt i32 %38, %39
-  br i1 %40, label %41, label %51
+while.cond:                                       ; preds = %while.body, %if.end
+  %7 = load i32, ptr %idx, align 4
+  %8 = load i32, ptr %end.addr, align 4
+  %cmp = icmp slt i32 %7, %8
+  br i1 %cmp, label %while.body, label %while.end
 
-41:                                               ; preds = %37
-  %42 = load void (%struct.RuntimeContext*, i8*, i32)*, void (%struct.RuntimeContext*, i8*, i32)** %12, align 8
-  %43 = load %struct.RuntimeContext*, %struct.RuntimeContext** %8, align 8
-  %44 = load i8*, i8** %18, align 8
-  %45 = load i32, i32* %15, align 4
-  call void %42(%struct.RuntimeContext* %43, i8* %44, i32 %45)
-  %46 = call i32 @block_dim()
-  %47 = call i32 @grid_dim()
-  %48 = mul nsw i32 %46, %47
-  %49 = load i32, i32* %15, align 4
-  %50 = add nsw i32 %49, %48
-  store i32 %50, i32* %15, align 4
-  br label %37
+while.body:                                       ; preds = %while.cond
+  %9 = load ptr, ptr %func.addr, align 8
+  %10 = load i32, ptr %idx, align 4
+  %11 = load ptr, ptr %tls_ptr, align 8
+  %12 = load ptr, ptr %context.addr, align 8
+  call void %9(ptr noundef %12, ptr noundef %11, i32 noundef %10)
+  %call4 = call i32 @block_dim()
+  %call5 = call i32 @grid_dim()
+  %mul6 = mul nsw i32 %call4, %call5
+  %13 = load i32, ptr %idx, align 4
+  %add7 = add nsw i32 %13, %mul6
+  store i32 %add7, ptr %idx, align 4
+  br label %while.cond, !llvm.loop !20
 
-51:                                               ; preds = %37
-  %52 = load void (%struct.RuntimeContext*, i8*)*, void (%struct.RuntimeContext*, i8*)** %13, align 8
-  %53 = icmp ne void (%struct.RuntimeContext*, i8*)* %52, null
-  br i1 %53, label %54, label %58
+while.end:                                        ; preds = %while.cond
+  %14 = load ptr, ptr %epilogue.addr, align 8
+  %tobool8 = icmp ne ptr %14, null
+  br i1 %tobool8, label %if.then9, label %if.end10
 
-54:                                               ; preds = %51
-  %55 = load void (%struct.RuntimeContext*, i8*)*, void (%struct.RuntimeContext*, i8*)** %13, align 8
-  %56 = load %struct.RuntimeContext*, %struct.RuntimeContext** %8, align 8
-  %57 = load i8*, i8** %18, align 8
-  call void %55(%struct.RuntimeContext* %56, i8* %57)
-  br label %58
+if.then9:                                         ; preds = %while.end
+  %15 = load ptr, ptr %epilogue.addr, align 8
+  %16 = load ptr, ptr %tls_ptr, align 8
+  %17 = load ptr, ptr %context.addr, align 8
+  call void %15(ptr noundef %17, ptr noundef %16)
+  br label %if.end10
 
-58:                                               ; preds = %54, %51
-  %59 = load i8*, i8** %16, align 8
-  call void @llvm.stackrestore(i8* %59)
+if.end10:                                         ; preds = %if.then9, %while.end
+  %18 = load ptr, ptr %saved_stack, align 8
+  call void @llvm.stackrestore(ptr %18)
   ret void
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
 define internal i32 @thread_idx() #0 {
 entry:
   %0 = call i32 @llvm.nvvm.read.ptx.sreg.tid.x()
   ret i32 %0
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
 define internal i32 @block_dim() #0 {
 entry:
   %0 = call i32 @llvm.nvvm.read.ptx.sreg.ntid.x()
   ret i32 %0
 }
 
-; Function Attrs: alwaysinline nounwind uwtable
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
 define internal i32 @block_idx() #0 {
 entry:
   %0 = call i32 @llvm.nvvm.read.ptx.sreg.ctaid.x()
@@ -382,9 +379,9 @@ entry:
 }
 
 ; Function Attrs: nocallback nofree nosync nounwind willreturn
-declare i8* @llvm.stacksave() #1
+declare ptr @llvm.stacksave() #1
 
-; Function Attrs: alwaysinline nounwind uwtable
+; Function Attrs: alwaysinline mustprogress nounwind uwtable
 define internal i32 @grid_dim() #0 {
 entry:
   %0 = call i32 @llvm.nvvm.read.ptx.sreg.nctaid.x()
@@ -392,7 +389,7 @@ entry:
 }
 
 ; Function Attrs: nocallback nofree nosync nounwind willreturn
-declare void @llvm.stackrestore(i8*) #1
+declare void @llvm.stackrestore(ptr) #1
 
 ; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
 declare i32 @llvm.nvvm.read.ptx.sreg.nctaid.x() #2
@@ -406,25 +403,35 @@ declare i32 @llvm.nvvm.read.ptx.sreg.ntid.x() #2
 ; Function Attrs: nocallback nofree nosync nounwind readnone speculatable willreturn
 declare i32 @llvm.nvvm.read.ptx.sreg.tid.x() #2
 
-attributes #0 = { alwaysinline nounwind uwtable "correctly-rounded-divide-sqrt-fp-math"="false" "disable-tail-calls"="false" "frame-pointer"="all" "less-precise-fpmad"="false" "min-legal-vector-width"="0" "no-infs-fp-math"="false" "no-jump-tables"="false" "no-nans-fp-math"="false" "no-signed-zeros-fp-math"="false" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #0 = { alwaysinline mustprogress nounwind uwtable "frame-pointer"="none" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="x86-64" "target-features"="+cx8,+fxsr,+mmx,+sse,+sse2,+x87" "tune-cpu"="generic" }
 attributes #1 = { nocallback nofree nosync nounwind willreturn }
 attributes #2 = { nocallback nofree nosync nounwind readnone speculatable willreturn }
 
 !nvvm.annotations = !{!0, !1, !2, !3, !4, !5, !6, !7, !6, !8, !8, !8, !8, !9, !9, !8}
-!llvm.ident = !{!10}
-!nvvmir.version = !{!11}
-!llvm.module.flags = !{!12}
+!llvm.linker.options = !{!10, !11, !12, !13, !14}
+!llvm.ident = !{!15}
+!nvvmir.version = !{!16}
+!llvm.module.flags = !{!17, !18, !19}
 
-!0 = !{void (%struct.RuntimeContext*)* @initialize_particle_c76_0_kernel_0_serial, !"kernel", i32 1}
-!1 = !{void (%struct.RuntimeContext*)* @initialize_particle_c76_0_kernel_0_serial, !"maxntidx", i32 1}
-!2 = !{void (%struct.RuntimeContext*)* @initialize_particle_c76_0_kernel_0_serial, !"minctasm", i32 2}
-!3 = !{void (%struct.RuntimeContext*)* @initialize_particle_c76_0_kernel_1_range_for, !"kernel", i32 1}
-!4 = !{void (%struct.RuntimeContext*)* @initialize_particle_c76_0_kernel_1_range_for, !"maxntidx", i32 128}
-!5 = !{void (%struct.RuntimeContext*)* @initialize_particle_c76_0_kernel_1_range_for, !"minctasm", i32 2}
+!0 = !{ptr @initialize_particle_c76_0_kernel_0_serial, !"kernel", i32 1}
+!1 = !{ptr @initialize_particle_c76_0_kernel_0_serial, !"maxntidx", i32 1}
+!2 = !{ptr @initialize_particle_c76_0_kernel_0_serial, !"minctasm", i32 2}
+!3 = !{ptr @initialize_particle_c76_0_kernel_1_range_for, !"kernel", i32 1}
+!4 = !{ptr @initialize_particle_c76_0_kernel_1_range_for, !"maxntidx", i32 128}
+!5 = !{ptr @initialize_particle_c76_0_kernel_1_range_for, !"minctasm", i32 2}
 !6 = !{null, !"align", i32 8}
 !7 = !{null, !"align", i32 8, !"align", i32 65544, !"align", i32 131080}
 !8 = !{null, !"align", i32 16}
 !9 = !{null, !"align", i32 16, !"align", i32 65552, !"align", i32 131088}
-!10 = !{!"Ubuntu clang version 11.1.0-6"}
-!11 = !{i32 1, i32 4}
-!12 = !{i32 1, !"wchar_size", i32 4}
+!10 = !{!"/FAILIFMISMATCH:\22_MSC_VER=1900\22"}
+!11 = !{!"/FAILIFMISMATCH:\22_ITERATOR_DEBUG_LEVEL=0\22"}
+!12 = !{!"/FAILIFMISMATCH:\22RuntimeLibrary=MT_StaticRelease\22"}
+!13 = !{!"/DEFAULTLIB:libcpmt.lib"}
+!14 = !{!"/FAILIFMISMATCH:\22_CRT_STDIO_ISO_WIDE_SPECIFIERS=0\22"}
+!15 = !{!"clang version 15.0.0 (https://github.com/llvm/llvm-project.git 483eed9e1faaa59925386728d40c099a237205e4)"}
+!16 = !{i32 1, i32 4}
+!17 = !{i32 1, !"wchar_size", i32 2}
+!18 = !{i32 7, !"PIC Level", i32 2}
+!19 = !{i32 7, !"uwtable", i32 2}
+!20 = distinct !{!20, !21}
+!21 = !{!"llvm.loop.mustprogress"}

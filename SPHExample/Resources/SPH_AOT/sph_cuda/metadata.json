@@ -1,9 +1,22 @@
 {
 "cache": {
   "version": {1, 5, 0},
-  "size": 113148,
+  "size": 99919,
   "fields": {},
-  "kernels": {"boundary_handle": {
+  "kernels": {"initialize": {
+      "kernel_key": "initialize",
+      "args": [{
+          "is_array": true},{
+          "is_array": true},{
+          "is_array": true}],
+      "compiled_data": {
+        "tasks": [{
+            "name": "initialize_c74_0_kernel_0_serial",
+            "block_dim": 1,
+            "grid_dim": 1}]},
+      "size": 7403,
+      "created_at": 1677466163,
+      "last_used_at": 1677466163},"boundary_handle": {
       "kernel_key": "boundary_handle",
       "args": [{
           "is_array": true},{
@@ -16,26 +29,44 @@
             "grid_dim": 1},{
             "name": "boundary_handle_c84_0_kernel_1_range_for",
             "block_dim": 128,
-            "grid_dim": 2176}]},
-      "size": 22882,
-      "created_at": 1675679126,
-      "last_used_at": 1675679126},"advance": {
-      "kernel_key": "advance",
+            "grid_dim": 960}]},
+      "size": 20391,
+      "created_at": 1677466164,
+      "last_used_at": 1677466164},"initialize_particle": {
+      "kernel_key": "initialize_particle",
+      "args": [{
+          "is_array": true},{
+          "is_array": true},{
+          "is_array": true},{
+          "is_array": true},{
+          "is_array": true}],
+      "compiled_data": {
+        "tasks": [{
+            "name": "initialize_particle_c76_0_kernel_0_serial",
+            "block_dim": 1,
+            "grid_dim": 1},{
+            "name": "initialize_particle_c76_0_kernel_1_range_for",
+            "block_dim": 128,
+            "grid_dim": 960}]},
+      "size": 16568,
+      "created_at": 1677466163,
+      "last_used_at": 1677466163},"update_density": {
+      "kernel_key": "update_density",
       "args": [{
           "is_array": true},{
           "is_array": true},{
           "is_array": true}],
       "compiled_data": {
         "tasks": [{
-            "name": "advance_c82_0_kernel_0_serial",
+            "name": "update_density_c78_0_kernel_0_serial",
             "block_dim": 1,
             "grid_dim": 1},{
-            "name": "advance_c82_0_kernel_1_range_for",
+            "name": "update_density_c78_0_kernel_1_range_for",
             "block_dim": 128,
-            "grid_dim": 2176}]},
-      "size": 16646,
-      "created_at": 1675679125,
-      "last_used_at": 1675679125},"update_force": {
+            "grid_dim": 960}]},
+      "size": 16236,
+      "created_at": 1677466163,
+      "last_used_at": 1677466163},"update_force": {
       "kernel_key": "update_force",
       "args": [{
           "is_array": true},{
@@ -51,54 +82,23 @@
             "grid_dim": 1},{
             "name": "update_force_c80_0_kernel_1_range_for",
             "block_dim": 128,
-            "grid_dim": 2176}]},
-      "size": 27764,
-      "created_at": 1675679125,
-      "last_used_at": 1675679125},"update_density": {
-      "kernel_key": "update_density",
+            "grid_dim": 960}]},
+      "size": 24986,
+      "created_at": 1677466164,
+      "last_used_at": 1677466164},"advance": {
+      "kernel_key": "advance",
       "args": [{
           "is_array": true},{
           "is_array": true},{
           "is_array": true}],
       "compiled_data": {
         "tasks": [{
-            "name": "update_density_c78_0_kernel_1_serial",
+            "name": "advance_c82_0_kernel_0_serial",
             "block_dim": 1,
             "grid_dim": 1},{
-            "name": "update_density_c78_0_kernel_0_range_for",
+            "name": "advance_c82_0_kernel_1_range_for",
             "block_dim": 128,
-            "grid_dim": 2176}]},
-      "size": 18500,
-      "created_at": 1675679125,
-      "last_used_at": 1675679125},"initialize_particle": {
-      "kernel_key": "initialize_particle",
-      "args": [{
-          "is_array": true},{
-          "is_array": true},{
-          "is_array": true},{
-          "is_array": true},{
-          "is_array": true}],
-      "compiled_data": {
-        "tasks": [{
-            "name": "initialize_particle_c76_0_kernel_0_serial",
-            "block_dim": 1,
-            "grid_dim": 1},{
-            "name": "initialize_particle_c76_0_kernel_1_range_for",
-            "block_dim": 128,
-            "grid_dim": 2176}]},
-      "size": 18500,
-      "created_at": 1675679125,
-      "last_used_at": 1675679125},"initialize": {
-      "kernel_key": "initialize",
-      "args": [{
-          "is_array": true},{
-          "is_array": true},{
-          "is_array": true}],
-      "compiled_data": {
-        "tasks": [{
-            "name": "initialize_c74_0_kernel_0_serial",
-            "block_dim": 1,
-            "grid_dim": 1}]},
-      "size": 8856,
-      "created_at": 1675679125,
-      "last_used_at": 1675679125}}}}
+            "grid_dim": 960}]},
+      "size": 14335,
+      "created_at": 1677466164,
+      "last_used_at": 1677466164}}}}

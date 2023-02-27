@@ -27,7 +27,7 @@ public:
 
 public:
 	// Taichi AOT Members
-	static const uint32_t NR_PARTICLES = 2000;
+	static const uint32_t NR_PARTICLES = 20;
 	static const uint32_t SUBSTEPS = 1;
 
 	TiArch arch_;

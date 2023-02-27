@@ -1,0 +1,9 @@
+SPHExample/Saved
+SPHExample/Binaries
+SPHExample/Intermediate/*
+TaichiAOTPlugin 5.0
+TaichiAOTPlugin
+SPHExample/Binaries/*
+SPHExample/Plugins/AOTPlugin/Intermediate/*
+SPHExample/Plugins/AOTPlugin/Binaries/*
+SPHExample/.vs/SPHExample/v17/.suo
