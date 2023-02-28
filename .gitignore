@@ -7,3 +7,4 @@ SPHExample/Binaries/*
 SPHExample/Plugins/AOTPlugin/Intermediate/*
 SPHExample/Plugins/AOTPlugin/Binaries/*
 SPHExample/.vs/SPHExample/v17/.suo
+SPHExample/Resources/SPH_AOT/sph_cuda/*

@@ -27,7 +27,7 @@ public:
 
 public:
 	// Taichi AOT Members
-	static const uint32_t NR_PARTICLES = 20;
+	static const uint32_t NR_PARTICLES = 10;
 	static const uint32_t SUBSTEPS = 1;
 
 	TiArch arch_;
@@ -35,20 +35,8 @@ public:
 	ti::AotModule module_;
 
 	ti::Kernel k_initialize_;
-	ti::Kernel k_initialize_particle_;
-	ti::Kernel k_update_density_;
-	ti::Kernel k_update_force_;
-	ti::Kernel k_advance_;
-	ti::Kernel k_boundary_handle_;
+	ti::Kernel k_advect_;
 
-	ti::NdArray<int> N_; 
-	ti::NdArray<float> den_;
-	ti::NdArray<float> pre_;
-	ti::NdArray<float> vel_;
-	ti::NdArray<float> acc_;
-	ti::NdArray<float> boundary_box_;
-	ti::NdArray<float> spawn_box_;
-	ti::NdArray<float> gravity_;
 	ti::NdArray<float> pos_;
 
 	UPROPERTY()
